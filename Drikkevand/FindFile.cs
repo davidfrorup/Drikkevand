@@ -13,75 +13,32 @@ namespace Drikkevand
 
             string[] files = Directory.GetFiles(rootPath);
 
-            // Display the list of files to the user
-            for (int i = 0; i < files.Length; i++)
+            do
+            {
+                for (int i = 0; i < files.Length; i++)
             {
                 Console.WriteLine($"{i + 1}: {files[i]}");
             }
 
-            // Prompt the user to select a file
-            Console.Write("Choose a file by entering its number: ");
+            Console.Write("Vælg en fil ud for nummer: ");
             string userInput = Console.ReadLine();
 
-            if (int.TryParse(userInput, out int selectedFileIndex) && selectedFileIndex > 0 && selectedFileIndex <= files.Length)
-            {
-                string selectedFilePath = files[selectedFileIndex - 1];
 
-                // Read JSON content from the selected file
-                string jsonContent = File.ReadAllText(selectedFilePath);
-
-                try
+            
+                if (int.TryParse(userInput, out int selectedFileIndex) && selectedFileIndex > 0 && selectedFileIndex <= files.Length)
                 {
-                    // Parse JSON using Json.NET and deserialize it into a list of QuizQuestion objects
-                    List<QuizQuestions> quizQuestions = JsonConvert.DeserializeObject<List<QuizQuestions>>(jsonContent);
+                    string selectedFilePath = files[selectedFileIndex - 1];
 
-                    // Loop through each question
-                    foreach (var question in quizQuestions)
-                    {
-                        Console.WriteLine($"Question {question.Number}: {question.Question}");
+                    // Read JSON content from the selected file
+                    string jsonContent = File.ReadAllText(selectedFilePath);
 
-                        // Display answer options
-                        for (int i = 0; i < question.Answers.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1}: {question.Answers[i]}");
-                        }
-
-                        // Prompt user for an answer
-                        Console.Write("Choose an answer by entering its number: ");
-                        string userAnswer = Console.ReadLine();
-
-                        if (int.TryParse(userAnswer, out int selectedAnswerIndex) &&
-                            selectedAnswerIndex > 0 && selectedAnswerIndex <= question.Answers.Count)
-                        {
-                            // Check if the user's answer is correct
-                            if (question.Answers[selectedAnswerIndex - 1] == question.CorrectAnswer)
-                            {
-                                Console.WriteLine("Correct answer! Info: " + question.Info);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Incorrect answer. Try again!");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid choice. Please enter a valid answer number.");
-                        }
-
-                        Console.WriteLine(); // Add a blank line for better readability
-                    }
+                    break;
                 }
-                catch (JsonException ex)
+                else
                 {
-                    Console.WriteLine("Error while parsing JSON: " + ex.Message);
+                    Console.WriteLine("Ugyldigt valg. Vælg et gyldigt fil nummer.");
                 }
-            }
-            else
-            {
-                Console.WriteLine("Invalid choice. Please enter a valid file number.");
-            }
-
-            Console.ReadLine();
+            } while (true);
         }
     }
 }
