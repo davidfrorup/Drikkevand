@@ -9,6 +9,9 @@ namespace Drikkevand
     {
         public void GetFile()
         {
+
+            int userScore = 0;
+
             string rootPath = @"C:\Users\df\Desktop\json";
 
             string[] files = Directory.GetFiles(rootPath);
@@ -41,82 +44,45 @@ namespace Drikkevand
 
                         Console.WriteLine($"Spørgsmål {question.Number}: {question.Question}");
 
-                        //bool correctAnswer = false;
 
-                        //do
-                        //{
-
-
-
-                        //    for (int i = 0; i < question.Answers.Count; i++)
-                        //    {
-                        //        Console.WriteLine($"{i + 1}: {question.Answers[i]}");
-                        //    }
-
-                        //    Console.Write("Vælg et svar ud for nummer: ");
-                        //    string userAnswer = Console.ReadLine();
-
-                        //    if (int.TryParse(userAnswer, out int selectedAnswerIndex) && selectedAnswerIndex > 0 && selectedAnswerIndex <= question.Answers.Count)
-                        //    {
-
-                        //        correctAnswer = string.Equals(question.Answers[selectedAnswerIndex - 1], question.CorrectAnswer);
-
-                        //        if (correctAnswer)
-                        //        {
-                        //            Console.WriteLine($"{question.IsCorrect[0]}. Info: {question.Info}");
-                        //        }
-                        //        else
-                        //        {
-                        //            Console.Clear();
-                        //            Console.WriteLine($"{question.IsCorrect[1]} Prøv igen!");
-                        //        }
-
-                        //    }
-                        //} while (!correctAnswer);
-
-
-                        bool correctAnswer = false;
-
-                        do
+                        for (int i = 0; i < question.Answers.Count; i++)
                         {
+                            Console.WriteLine($"{i + 1}: {question.Answers[i]}");
+                        }
 
-                            for (int i = 0; i < question.Answers.Count; i++)
-                            {
-                                Console.WriteLine($"{i + 1}: {question.Answers[i]}");
-                            }
-
-                            Console.Write("Vælg et svar ud for nummer: ");
-                            string userAnswer = Console.ReadLine();
+                        Console.Write("Vælg et svar ud for nummer: ");
+                        string userAnswer = Console.ReadLine();
 
 
-                            if (userAnswer == question.CorrectAnswer)
-                            {
-                                Console.WriteLine($"\n{question.IsCorrect[0]} \n\nInfo: {question.Info}");
-                                correctAnswer = true;
-                                Console.WriteLine("\nTryk vilkårlig tast for at fortsætte.");
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-                            else
-                            {
-                                Console.Clear();
-                                Console.WriteLine($"{question.IsCorrect[1]} Prøv igen!");
-                                Console.WriteLine(question.Question);
-                                
-                            }
-                        } while (!correctAnswer);
-
-
-
+                        if (userAnswer == question.CorrectAnswer)
+                        {
+                            Console.WriteLine($"\n{question.IsCorrect[0]} \n\nInfo: {question.Info}");
+                            Console.WriteLine("\nTryk vilkårlig tast for at fortsætte.");
+                            Console.ReadKey();
+                            Console.Clear();
+                            userScore++;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"\n{question.IsCorrect[1]} \n\nInfo: {question.Info}");
+                            Console.WriteLine("\nTryk vilkårlig tast for at fortsætte.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
 
                     }
-                    //break;
+                    double percentage = (double)userScore / quizQuestions.Count * 100;
+                    Console.WriteLine($"\nDu har svaret rigtigt på {userScore} ud af {quizQuestions.Count} spørgsmål. ({percentage}% korrekte)");
+                    
+                    break;
 
                 }
+
                 else
                 {
                     Console.WriteLine("Ugyldigt valg. Vælg et gyldigt fil nummer.");
                 }
+           
             } while (true);
         }
     }
