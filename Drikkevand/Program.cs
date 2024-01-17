@@ -1,11 +1,4 @@
-﻿
-using Drikkevand;
+﻿using Drikkevand;
 
 
-FindFile fileFinder = new FindFile();
-fileFinder.GetFile();
-
-
-
-
-
+TheQuiz.Quuuiz();
